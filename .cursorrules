@@ -1,0 +1,721 @@
+# AI-Powered Application Development - Master System Prompt
+# Project: [PROJECT_NAME]
+# Version: 3.0 (joined v2.0 + v2.5 which includes landing page)
+# Last Updated: [DATE]
+# Stage: [STAGE_NAME] - Part of Complete Development Lifecycle
+
+## 🎯 PROJECT CONTEXT & LIFECYCLE AWARENESS
+You are working on Stage [X] of a 10-stage AI-powered application development lifecycle.
+This stage must integrate seamlessly with:
+- **Previous Stages**: [LIST DEPENDENCIES]
+- **Next Stages**: [LIST CONNECTIONS]
+- **Parallel Work**: [LIST CONCURRENT STAGES]
+
+**Critical**: All code must be production-ready, modular, and follow agency-wide standards.
+
+## 🏗️ PROJECT ARCHITECTURE OVERVIEW
+- **Landing Page**: Modular Next.js components (independent sections)
+- **Frontend**: Next.js 15 (App Router) + TypeScript + TailwindCSS + shadcn/ui
+- **Backend**: Next.js API Routes + tRPC (type-safe APIs)
+- **Database**: PostgreSQL (Supabase) + pgvector for embeddings
+- **AI Integration**: OpenAI API (GPT-4) + Claude API + Vercel AI SDK
+- **Workflow Automation**: n8n (self-hosted on VPS)
+- **Authentication**: Supabase Auth with Row Level Security
+- **Hosting**: Vercel (frontend) + Hostinger VPS (backend/n8n)
+- **Monitoring**: Sentry (errors) + PostHog (analytics) + Better Stack (logs)
+
+## 📁 STANDARDIZED DIRECTORY STRUCTURE
+```
+project-root/
+├── .cursorrules                 # This file (stage-specific)
+├── .env.local                   # Local development env vars
+├── .env.example                 # Template for all required env vars
+├── .github/
+│   └── workflows/
+│       ├── test.yml            # CI/CD testing pipeline
+│       └── deploy.yml          # Production deployment
+├── public/                      # Static assets
+│   ├── images/
+│   ├── fonts/
+│   └── icons/
+├── src/
+│   ├── app/                    # Next.js App Router (pages & routing)
+│   │   ├── page.tsx           # Landing page (imports all sections)
+│   │   ├── (auth)/            # Route group: authentication
+│   │   │   ├── login/
+│   │   │   │   └── page.tsx
+│   │   │   ├── register/
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx
+│   │   ├── (dashboard)/       # Route group: main app
+│   │   │   ├── dashboard/
+│   │   │   │   └── page.tsx
+│   │   │   ├── settings/
+│   │   │   │   └── page.tsx
+│   │   │   └── layout.tsx     # Includes sidebar navigation
+│   │   ├── (onboarding)/      # Route group: first-time setup
+│   │   │   ├── welcome/
+│   │   │   ├── profile/
+│   │   │   ├── preferences/
+│   │   │   └── layout.tsx
+│   │   ├── api/               # API routes & tRPC endpoints
+│   │   │   ├── trpc/
+│   │   │   │   └── [trpc]/
+│   │   │   │       └── route.ts
+│   │   │   ├── auth/
+│   │   │   ├── webhooks/
+│   │   │   └── cron/
+│   │   ├── layout.tsx         # Root layout
+│   │   ├── globals.css        # Global styles
+│   │   └── error.tsx          # Global error boundary
+│   ├── components/            # React components (organized by feature)
+│   │   ├── ui/               # shadcn/ui base components
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   └── ...
+│   │   ├── layout/           # Layout components
+│   │   │   ├── header.tsx         # Navigation (app header)
+│   │   │   ├── sidebar.tsx
+│   │   │   ├── footer.tsx         # Footer (app + landing)
+│   │   │   └── navigation.tsx
+│   │   ├── landing/               # Landing page components
+│   │   │   ├── sections/          # Independent landing sections
+│   │   │   │   ├── hero.tsx
+│   │   │   │   ├── client-logos.tsx
+│   │   │   │   ├── problem.tsx
+│   │   │   │   ├── solution.tsx
+│   │   │   │   ├── services.tsx
+│   │   │   │   ├── case-studies.tsx
+│   │   │   │   ├── process.tsx
+│   │   │   │   ├── trust-signals.tsx
+│   │   │   │   ├── faq.tsx
+│   │   │   │   └── final-cta.tsx
+│   │   │   ├── forms/
+│   │   │   │   ├── contact-form.tsx
+│   │   │   │   └── booking-section.tsx
+│   │   │   ├── interactive/
+│   │   │   │   └── roi-calculator.tsx
+│   │   │   └── index.tsx          # Barrel export
+│   │   ├── auth/             # Authentication components
+│   │   │   ├── login-form.tsx
+│   │   │   ├── register-form.tsx
+│   │   │   └── auth-provider.tsx
+│   │   ├── onboarding/       # Onboarding flow components
+│   │   │   ├── step-1-welcome.tsx
+│   │   │   ├── step-2-profile.tsx
+│   │   │   ├── step-3-preferences.tsx
+│   │   │   └── progress-indicator.tsx
+│   │   ├── dashboard/        # Dashboard widgets
+│   │   │   ├── stats-card.tsx
+│   │   │   ├── recent-activity.tsx
+│   │   │   └── quick-actions.tsx
+│   │   ├── ai/               # AI-specific components
+│   │   │   ├── chat-interface.tsx
+│   │   │   ├── message-list.tsx
+│   │   │   ├── prompt-input.tsx
+│   │   │   └── ai-response.tsx
+│   │   ├── shared/           # Shared/common components
+│   │   │   ├── loading-spinner.tsx
+│   │   │   ├── error-message.tsx
+│   │   │   └── empty-state.tsx
+│   │   └── widgets/               # Interactive widgets
+│   │       ├── chat-widget.tsx
+│   │       └── exit-intent-popup.tsx
+│   ├── lib/                   # Core business logic & utilities
+│   │   ├── ai/               # AI integration logic
+│   │   │   ├── openai.ts
+│   │   │   ├── claude.ts
+│   │   │   ├── embeddings.ts
+│   │   │   └── prompts.ts
+│   │   ├── db/               # Database client & queries
+│   │   │   ├── client.ts     # Supabase client
+│   │   │   ├── queries.ts    # Database queries
+│   │   │   └── migrations/   # SQL migration files
+│   │   ├── auth/             # Authentication logic
+│   │   │   ├── session.ts
+│   │   │   ├── middleware.ts
+│   │   │   └── permissions.ts
+│   │   ├── api/              # API client & tRPC setup
+│   │   │   ├── trpc.ts       # tRPC client
+│   │   │   └── router.ts     # tRPC router
+│   │   ├── integrations/     # Third-party integrations
+│   │   │   ├── stripe.ts
+│   │   │   ├── resend.ts
+│   │   │   └── n8n.ts
+│   │   ├── utils/            # Utility functions
+│   │   │   ├── formatting.ts
+│   │   │   ├── validation.ts
+│   │   │   └── logger.ts
+│   │   └── config/                # Configuration
+│   ├── hooks/                 # Custom React hooks
+│   │   ├── use-auth.ts
+│   │   ├── use-ai-chat.ts
+│   │   ├── use-debounce.ts
+│   │   ├── use-local-storage.ts
+│   │   ├── use-scroll.ts          # Landing page scroll
+│   │   └── use-mouse-leave.ts     # Exit intent detection
+│   ├── types/                 # TypeScript type definitions
+│   │   ├── database.ts       # Database types (Supabase generated)
+│   │   ├── api.ts            # API response types
+│   │   ├── ai.ts             # AI-related types
+│   │   └── index.ts          # Barrel export
+│   ├── config/                # Configuration files
+│   │   ├── site.ts           # Site metadata & constants
+│   │   ├── nav.ts            # Navigation configuration
+│   │   └── env.ts            # Environment validation (Zod)
+│   ├── styles/                # Additional styles
+│   │   ├── themes/           # Theme definitions
+│   │   ├── animations.css    # Custom animations
+│   │   └── landing.css            # Landing page styles
+│   └── middleware.ts          # Next.js middleware (auth, logging)
+├── tests/                     # Test files
+│   ├── unit/                 # Unit tests
+│   ├── integration/          # Integration tests
+│   └── e2e/                  # End-to-end tests (Playwright)
+├── scripts/                   # Utility scripts
+│   ├── seed-db.ts            # Database seeding
+│   ├── generate-types.ts     # Type generation
+│   └── backup.ts             # Backup scripts
+├── docs/                      # Documentation
+│   ├── API.md                # API documentation
+│   ├── DEPLOYMENT.md         # Deployment guide
+│   └── ARCHITECTURE.md       # Architecture overview
+├── n8n-workflows/             # n8n workflow exports
+│   ├── email-automation.json
+│   ├── ai-processing.json
+│   └── README.md
+├── docker/                    # Docker configurations
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── docker-compose.dev.yml
+├── package.json
+├── tsconfig.json
+├── next.config.js
+├── tailwind.config.ts
+├── components.json            # shadcn/ui config
+├── .gitignore
+└── README.md
+```
+
+## 🎨 DESIGN SYSTEM STANDARDS
+### Visual Style Inspiration
+**Landing Page**: GoHighLevel Marketplace + Confluence
+- Clean, professional, modern aesthetic
+- Generous white space with strategic color accents
+- Card-based layouts with subtle shadows
+- Gradient backgrounds (subtle, not overwhelming)
+- Clear hierarchy with large headings and readable body text
+- Trust indicators (logos, testimonials, stats)
+
+**Application Frontend**: GoHighLevel App + Confluence
+- Left sidebar navigation (collapsible on mobile)
+- Clean, minimal top header with user profile
+- Card-based content organization
+- Consistent spacing system (4px grid)
+- Professional color palette with accent colors
+- Data visualization with charts and graphs
+
+### Landing Page Sections (Modular Components)
+The landing page is built from independent sections that can be customized individually:
+
+1. **Header** - Sticky navigation with smooth scroll
+2. **Hero** - Compelling headline + video placeholder
+3. **Client Logos** - Scrolling carousel (8 logos)
+4. **Problem** - Problem statement section
+5. **Solution** - Solution overview
+6. **Services** - 3-tier pricing with "Most Popular" badge
+7. **Case Studies** - 3 real-world examples with metrics
+8. **ROI Calculator** - Interactive pricing calculator
+9. **Booking** - Calendly integration
+10. **Process** - 4-step timeline with gradient icons
+11. **Trust Signals** - Certifications and guarantees
+12. **FAQ** - 8 questions with accordion
+13. **Contact Form** - React Hook Form + Zod validation
+14. **Final CTA** - Call-to-action section
+15. **Footer** - 5-column comprehensive footer
+16. **Exit Intent Popup** - Lead capture on mouse leave
+17. **Chat Widget** - Interactive AI assistant
+
+### Color Palette (Configure per project)
+```typescript
+// tailwind.config.ts
+export default {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#f0f9ff',
+          500: '#3b82f6',  // Main brand color
+          600: '#2563eb',
+          700: '#1d4ed8',
+        },
+        secondary: {
+          500: '#8b5cf6',
+        },
+        success: '#10b981',
+        warning: '#f59e0b',
+        error: '#ef4444',
+        neutral: {
+          50: '#f9fafb',
+          100: '#f3f4f6',
+          500: '#6b7280',
+          900: '#111827',
+        }
+      }
+    }
+  }
+}
+```
+
+### Typography
+- **Headings**: System font stack (SF Pro, Segoe UI, sans-serif)
+- **Body**: Same as headings for consistency
+- **Code**: JetBrains Mono, Fira Code, monospace
+- **Sizes**: Use Tailwind's default scale (text-sm, text-base, text-lg, etc.)
+
+### Component Patterns
+- Use shadcn/ui as base component library
+- Extend with custom components when needed
+- Maintain consistent spacing (p-4, p-6, p-8)
+- Use rounded corners (rounded-lg, rounded-xl)
+- Add subtle shadows (shadow-sm, shadow-md)
+
+## ⚙️ ENVIRONMENT VARIABLES MANAGEMENT
+### Required Environment Variables (.env.example)
+```bash
+# =============================================================================
+# ENVIRONMENT CONFIGURATION
+# =============================================================================
+NODE_ENV=development # development | staging | production
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+
+# =============================================================================
+# DATABASE (SUPABASE)
+# =============================================================================
+DATABASE_URL=postgresql://user:password@host:5432/dbname
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# =============================================================================
+# AI SERVICES
+# =============================================================================
+OPENAI_API_KEY=sk-xxxxx
+ANTHROPIC_API_KEY=sk-ant-xxxxx
+OPENAI_ORG_ID=org-xxxxx
+
+# AI Configuration
+AI_MODEL_PRIMARY=gpt-4-turbo-preview
+AI_MODEL_SECONDARY=gpt-3.5-turbo
+AI_MAX_TOKENS=4000
+AI_TEMPERATURE=0.7
+
+# =============================================================================
+# AUTHENTICATION
+# =============================================================================
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+JWT_SECRET=your_jwt_secret
+
+# =============================================================================
+# INTEGRATIONS
+# =============================================================================
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxxxx
+STRIPE_SECRET_KEY=sk_test_xxxxx
+STRIPE_WEBHOOK_SECRET=whsec_xxxxx
+
+# Email (Resend)
+RESEND_API_KEY=re_xxxxx
+RESEND_FROM_EMAIL=noreply@yourdomain.com
+
+# n8n Workflows
+N8N_WEBHOOK_URL=https://n8n.yourdomain.com/webhook
+N8N_API_KEY=n8n_api_key_xxxxx
+
+# =============================================================================
+# MONITORING & ANALYTICS
+# =============================================================================
+SENTRY_DSN=https://xxxxx@xxxxx.ingest.sentry.io/xxxxx
+SENTRY_ORG=your_org
+SENTRY_PROJECT=your_project
+
+NEXT_PUBLIC_POSTHOG_KEY=phc_xxxxx
+NEXT_PUBLIC_POSTHOG_HOST=https://app.posthog.com
+
+# =============================================================================
+# STORAGE
+# =============================================================================
+NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET=uploads
+MAX_FILE_SIZE=10485760 # 10MB in bytes
+
+# =============================================================================
+# RATE LIMITING & SECURITY
+# =============================================================================
+RATE_LIMIT_MAX_REQUESTS=100
+RATE_LIMIT_WINDOW_MS=900000 # 15 minutes
+CORS_ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
+
+# =============================================================================
+# FEATURE FLAGS (Optional)
+# =============================================================================
+NEXT_PUBLIC_FEATURE_LANDING_PAGE=true
+NEXT_PUBLIC_FEATURE_AI_CHAT=true
+NEXT_PUBLIC_FEATURE_FILE_UPLOAD=true
+NEXT_PUBLIC_FEATURE_ANALYTICS=true
+```
+
+### Environment Validation (config/env.ts)
+```typescript
+import { z } from 'zod';
+
+const envSchema = z.object({
+  NODE_ENV: z.enum(['development', 'staging', 'production']),
+  DATABASE_URL: z.string().url(),
+  OPENAI_API_KEY: z.string().min(1),
+  NEXTAUTH_SECRET: z.string().min(32),
+  // ... add all required vars
+});
+
+export const env = envSchema.parse(process.env);
+```
+
+## 🔒 SECURITY STANDARDS
+1. **Never log sensitive data** (API keys, tokens, passwords)
+2. **Validate all inputs** with Zod schemas
+3. **Implement rate limiting** on all public API routes
+4. **Use Row Level Security (RLS)** for database queries
+5. **Sanitize user inputs** to prevent XSS attacks
+6. **Use HTTPS only** in production
+7. **Implement CSRF protection** for forms
+8. **Secure all API routes** with authentication middleware
+
+## 📝 CODING STANDARDS & BEST PRACTICES
+
+### TypeScript Rules
+- **Strict mode enabled**: No implicit any, strict null checks
+- **Explicit return types** for all functions
+- **Interface over type** for object shapes
+- **Enums for constants** with fixed values
+- **Generic types** for reusable components
+
+### Component Standards
+```typescript
+// ✅ GOOD: Proper component structure
+interface ButtonProps {
+  variant: 'primary' | 'secondary' | 'ghost';
+  size: 'sm' | 'md' | 'lg';
+  isLoading?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+export function Component({ variant = 'primary', size = 'md', ...props }: ComponentProps) {
+  return (
+    // Implementation
+  );
+}
+```
+
+export function Button({ 
+  variant = 'primary', 
+  size = 'md',
+  isLoading = false,
+  onClick,
+  children 
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(buttonVariants({ variant, size }))}
+      disabled={isLoading}
+      onClick={onClick}
+    >
+      {isLoading ? <Spinner /> : children}
+    </button>
+  );
+}
+
+// ❌ BAD: No types, no clear props
+export function Button({ variant, onClick, children }: any) {
+  return <button onClick={onClick}>{children}</button>;
+}
+```
+
+### API Route Standards
+```typescript
+// ✅ GOOD: Proper error handling and validation
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { logger } from '@/lib/utils/logger';
+
+const requestSchema = z.object({
+  prompt: z.string().min(1).max(1000),
+  userId: z.string().uuid(),
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const validatedData = requestSchema.parse(body);
+
+    const result = await processAI(validatedData);
+
+    logger.info('AI request processed', { userId: validatedData.userId });
+
+    return NextResponse.json({ success: true, data: result });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: 'Invalid request data', details: error.errors },
+        { status: 400 }
+      );
+    }
+
+    logger.error('AI processing failed', { error });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+### Database Query Standards
+```typescript
+// ✅ GOOD: With error handling and logging
+export async function getUserProjects(userId: string) {
+  try {
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*, tasks(count)')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    logger.debug('Projects fetched', { userId, count: data?.length });
+    return data;
+  } catch (error) {
+    logger.error('Failed to fetch projects', { userId, error });
+    throw new Error('Failed to fetch projects');
+  }
+}
+```
+
+## 🧪 TESTING REQUIREMENTS
+Every feature must include:
+1. **Unit tests** for business logic (lib/, hooks/)
+2. **Integration tests** for API routes
+3. **E2E tests** for critical user flows (auth, onboarding, core features)
+
+```typescript
+// Example: hooks/use-auth.test.ts
+import { renderHook, waitFor } from '@testing-library/react';
+import { useAuth } from './use-auth';
+
+describe('useAuth', () => {
+  it('should return user when authenticated', async () => {
+    const { result } = renderHook(() => useAuth());
+
+    await waitFor(() => {
+      expect(result.current.user).toBeDefined();
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+});
+```
+
+## 📊 LOGGING STANDARDS
+```typescript
+// lib/utils/logger.ts
+import { env } from '@/config/env';
+
+type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+
+export const logger = {
+  debug: (message: string, meta?: Record<string, any>) => {
+    if (env.NODE_ENV === 'development') {
+      console.log(`[DEBUG] ${message}`, meta);
+    }
+  },
+
+  info: (message: string, meta?: Record<string, any>) => {
+    console.info(`[INFO] ${message}`, meta);
+    // Send to logging service (Better Stack)
+  },
+
+  warn: (message: string, meta?: Record<string, any>) => {
+    console.warn(`[WARN] ${message}`, meta);
+    // Send to logging service
+  },
+
+  error: (message: string, meta?: Record<string, any>) => {
+    console.error(`[ERROR] ${message}`, meta);
+    // Send to Sentry and logging service
+  },
+};
+
+// Usage throughout the app
+logger.info('User logged in', { userId, email });
+logger.error('AI API call failed', { error, userId, prompt });
+```
+
+## 🚀 PERFORMANCE OPTIMIZATION
+1. **Use Next.js Server Components** by default
+2. **Client Components only when needed** (interactivity, hooks, state)
+3. **Implement proper loading states** with Suspense boundaries
+4. **Optimize images** with Next.js Image component
+5. **Cache AI responses** to reduce API costs
+6. **Use React.memo** for expensive components
+7. **Implement pagination** for large data sets
+8. **Lazy load** non-critical components
+
+## 🔄 CODE GENERATION RULES
+When generating code for this project:
+
+1. **NEVER use placeholders** like "// TODO", "// Add logic here", or "// Implementation here"
+2. **ALWAYS write complete, production-ready code**
+3. **Include comprehensive error handling**
+4. **Add TypeScript types for everything**
+5. **Include logging for important operations**
+6. **Add comments explaining WHY, not WHAT**
+7. **Follow the exact directory structure** specified above
+8. **Import from correct paths** using @/ alias
+9. **Use existing utilities** from lib/utils/
+10. **Follow the design system** and component patterns
+
+### Import Path Examples
+```typescript
+// ✅ GOOD: Correct imports
+import { Button } from '@/components/ui/button';
+import { supabase } from '@/lib/db/client';
+import { logger } from '@/lib/utils/logger';
+import { useAuth } from '@/hooks/use-auth';
+import type { User } from '@/types';
+
+// ❌ BAD: Relative paths
+import { Button } from '../../../components/ui/button';
+```
+
+## 🔧 MODULARITY REQUIREMENTS
+All code must be modular and replaceable:
+
+1. **Service Layer Pattern**: Wrap all external services
+```typescript
+// lib/ai/service.ts
+export interface AIService {
+  generateResponse(prompt: string): Promise<string>;
+  generateEmbedding(text: string): Promise<number[]>;
+}
+
+// lib/ai/openai.ts
+export class OpenAIService implements AIService {
+  async generateResponse(prompt: string): Promise<string> {
+    // Implementation
+  }
+}
+
+// Easy to swap OpenAI for Claude or other providers
+```
+
+2. **Configuration Over Hardcoding**
+```typescript
+// ✅ GOOD: Configurable
+const AI_CONFIG = {
+  provider: env.AI_PROVIDER, // 'openai' | 'claude'
+  model: env.AI_MODEL,
+  maxTokens: env.AI_MAX_TOKENS,
+};
+
+// ❌ BAD: Hardcoded
+const model = 'gpt-4';
+```
+
+3. **Dependency Injection**
+```typescript
+// ✅ GOOD: Inject dependencies
+export function createChatService(aiService: AIService, db: Database) {
+  return {
+    async sendMessage(userId: string, message: string) {
+      const response = await aiService.generateResponse(message);
+      await db.saveMessage({ userId, message, response });
+      return response;
+    }
+  };
+}
+```
+
+## 🎯 STAGE-SPECIFIC GUIDELINES
+[STAGE_SPECIFIC_INSTRUCTIONS_HERE]
+
+## ✅ PRE-COMMIT CHECKLIST
+Before marking work as complete:
+- [ ] All TypeScript types defined (no 'any')
+- [ ] Error handling implemented everywhere
+- [ ] Logging added for important operations
+- [ ] Tests written and passing
+- [ ] No console.log statements (use logger)
+- [ ] Environment variables documented in .env.example
+- [ ] Code follows directory structure exactly
+- [ ] No hardcoded values (use config/constants)
+- [ ] Imports use @/ path alias
+- [ ] Components are properly typed
+- [ ] API routes have validation
+- [ ] Database queries have RLS policies
+- [ ] No security vulnerabilities introduced
+- [ ] Performance considerations addressed
+- [ ] Mobile responsiveness checked (if UI work)
+- [ ] Accessibility checked
+
+## 🤝 INTEGRATION POINTS
+This stage connects with:
+- **Frontend**: Uses components from src/components/
+- **Backend**: Calls APIs from src/app/api/
+- **Database**: Queries through lib/db/
+- **AI**: Uses services from lib/ai/
+- **Auth**: Validates with lib/auth/
+- **Monitoring**: Logs with lib/utils/logger
+
+## 📚 DOCUMENTATION REQUIREMENTS
+Every significant module must include:
+```typescript
+/**
+ * Generates AI responses for user prompts using OpenAI GPT-4.
+ * 
+ * @param prompt - User input text (max 1000 characters)
+ * @param userId - UUID of the authenticated user
+ * @param options - Optional configuration for model behavior
+ * 
+ * @returns Promise resolving to AI-generated response
+ * 
+ * @throws {ValidationError} If prompt exceeds length limit
+ * @throws {AIServiceError} If OpenAI API call fails
+ * 
+ * @example
+ * const response = await generateAIResponse(
+ *   "Explain quantum computing",
+ *   "user-123",
+ *   { temperature: 0.7 }
+ * );
+ */
+export async function generateAIResponse(
+  prompt: string,
+  userId: string,
+  options?: AIOptions
+): Promise<string> {
+  // Implementation
+}
+```
+
+## 🎓 LEARNING RESOURCES
+- Next.js 15 Docs: https://nextjs.org/docs
+- TypeScript Handbook: https://www.typescriptlang.org/docs
+- shadcn/ui Components: https://ui.shadcn.com
+- Supabase Docs: https://supabase.com/docs
+- OpenAI API Docs: https://platform.openai.com/docs
+
+---
+
+**Remember**: You are building a professional, production-ready application that will serve real users. Every line of code should reflect that standard.
