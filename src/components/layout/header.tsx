@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { useScroll } from '@/hooks/use-scroll';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';

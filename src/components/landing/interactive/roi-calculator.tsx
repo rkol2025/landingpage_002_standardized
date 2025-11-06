@@ -15,7 +15,7 @@ export function ROICalculator() {
   const weeklyWaste = employees * hoursPerWeek * hourlyRate;
   const annualWaste = weeklyWaste * 52;
   const aiSavings = annualWaste * 0.6; // 60% reduction
-  const implementation Cost = 45000; // Quick-win package
+  const implementationCost = 45000; // Quick-win package
   const netSavings = aiSavings - implementationCost;
   const roiMultiple = aiSavings / implementationCost;
 
