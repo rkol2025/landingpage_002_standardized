@@ -14,6 +14,8 @@ const AccordionContext = React.createContext<AccordionContextType | undefined>(
   undefined
 );
 
+const AccordionItemContext = React.createContext<string | undefined>(undefined);
+
 interface AccordionProps {
   type: 'single' | 'multiple';
   collapsible?: boolean;
@@ -43,7 +45,9 @@ const AccordionItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { value: string }
 >(({ className, value, ...props }, ref) => (
-  <div ref={ref} data-value={value} className={className} {...props} />
+  <AccordionItemContext.Provider value={value}>
+    <div ref={ref} data-value={value} className={className} {...props} />
+  </AccordionItemContext.Provider>
 ));
 AccordionItem.displayName = 'AccordionItem';
 
@@ -52,10 +56,9 @@ const AccordionTrigger = React.forwardRef<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, children, ...props }, ref) => {
   const context = React.useContext(AccordionContext);
-  const itemElement = ref as React.RefObject<HTMLButtonElement>;
-  const value = itemElement.current?.parentElement?.getAttribute('data-value') || '';
-  
-  const isOpen = context?.value === value;
+  const itemValue = React.useContext(AccordionItemContext) ?? '';
+
+  const isOpen = context?.value === itemValue;
 
   return (
     <button
@@ -64,7 +67,7 @@ const AccordionTrigger = React.forwardRef<
         'flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180',
         className
       )}
-      onClick={() => context?.onValueChange?.(isOpen ? '' : value)}
+      onClick={() => context?.onValueChange?.(isOpen ? '' : itemValue)}
       {...props}
     >
       {children}
@@ -84,10 +87,9 @@ const AccordionContent = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => {
   const context = React.useContext(AccordionContext);
-  const contentRef = ref as React.RefObject<HTMLDivElement>;
-  const value = contentRef.current?.parentElement?.getAttribute('data-value') || '';
-  
-  const isOpen = context?.value === value;
+  const itemValue = React.useContext(AccordionItemContext) ?? '';
+
+  const isOpen = context?.value === itemValue;
 
   if (!isOpen) return null;
 

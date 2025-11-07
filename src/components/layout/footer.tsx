@@ -87,7 +87,7 @@ export function Footer() {
             <h3 className="font-semibold text-white mb-4">Solutions</h3>
             <ul className="space-y-2">
               {footerLinks.solutions.map((link) => (
-                <li key={link.href}>
+                <li key={`${link.href}-${link.label}`}>
                   <Link
                     href={link.href}
                     className="text-sm text-neutral-400 hover:text-primary-400 transition-colors"
@@ -104,7 +104,7 @@ export function Footer() {
             <h3 className="font-semibold text-white mb-4">Services</h3>
             <ul className="space-y-2">
               {footerLinks.services.map((link) => (
-                <li key={link.href}>
+                <li key={`${link.href}-${link.label}`}>
                   <Link
                     href={link.href}
                     className="text-sm text-neutral-400 hover:text-primary-400 transition-colors"
@@ -121,7 +121,7 @@ export function Footer() {
             <h3 className="font-semibold text-white mb-4">Company</h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
-                <li key={link.href}>
+                <li key={`${link.href}-${link.label}`}>
                   <Link
                     href={link.href}
                     className="text-sm text-neutral-400 hover:text-primary-400 transition-colors"
@@ -138,7 +138,7 @@ export function Footer() {
             <h3 className="font-semibold text-white mb-4">Legal</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
-                <li key={link.href}>
+                <li key={`${link.href}-${link.label}`}>
                   <Link
                     href={link.href}
                     className="text-sm text-neutral-400 hover:text-primary-400 transition-colors"
