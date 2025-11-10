@@ -1,21 +1,33 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { TrendingUp, DollarSign, Users, Zap } from 'lucide-react';
+import { TrendingUp, Euro, Users, Zap } from 'lucide-react';
 
 export function ROICalculator() {
   const [employees, setEmployees] = useState(50);
   const [avgSalary, setAvgSalary] = useState(60000);
   const [hoursPerWeek, setHoursPerWeek] = useState(10);
+  const [implementationCost, setImplementationCost] = useState(10000);
+
+  const currencyFormatter = useMemo(
+    () =>
+      new Intl.NumberFormat('en-IE', {
+        style: 'currency',
+        currency: 'EUR',
+        maximumFractionDigits: 0,
+      }),
+    []
+  );
+
+  const formatCurrency = (value: number) => currencyFormatter.format(value);
 
   // Calculations
   const hourlyRate = avgSalary / 2080; // 2080 work hours per year
   const weeklyWaste = employees * hoursPerWeek * hourlyRate;
   const annualWaste = weeklyWaste * 52;
   const aiSavings = annualWaste * 0.6; // 60% reduction
-  const implementationCost = 45000; // Quick-win package
   const netSavings = aiSavings - implementationCost;
   const roiMultiple = aiSavings / implementationCost;
 
@@ -65,8 +77,8 @@ export function ROICalculator() {
 
                 <div className="space-y-3">
                   <label className="text-sm font-semibold text-neutral-900 flex items-center gap-2">
-                    <DollarSign className="w-4 h-4 text-primary-600" />
-                    Average Annual Salary
+                    <Euro className="w-4 h-4 text-primary-600" />
+                    Average Annual Salary (€)
                   </label>
                   <Input
                     type="number"
@@ -110,6 +122,31 @@ export function ROICalculator() {
                     className="w-full"
                   />
                 </div>
+
+                <div className="space-y-3">
+                  <label className="text-sm font-semibold text-neutral-900 flex items-center gap-2">
+                    <Euro className="w-4 h-4 text-primary-600" />
+                    Implementation Cost (€)
+                  </label>
+                  <Input
+                    type="number"
+                    value={implementationCost}
+                    onChange={(e) => setImplementationCost(Number(e.target.value))}
+                    min="5000"
+                    max="150000"
+                    step="1000"
+                    className="text-lg font-semibold"
+                  />
+                  <input
+                    type="range"
+                    value={implementationCost}
+                    onChange={(e) => setImplementationCost(Number(e.target.value))}
+                    min="5000"
+                    max="150000"
+                    step="1000"
+                    className="w-full"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -126,7 +163,7 @@ export function ROICalculator() {
                 <div className="p-6 bg-white rounded-xl shadow-sm">
                   <p className="text-sm text-neutral-600 mb-2">Current Annual Waste</p>
                   <p className="text-4xl font-bold text-error">
-                    ${annualWaste.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    {formatCurrency(annualWaste)}
                   </p>
                   <p className="text-xs text-neutral-500 mt-1">
                     Time spent on repetitive tasks
@@ -138,7 +175,7 @@ export function ROICalculator() {
                     Annual Savings with AI
                   </p>
                   <p className="text-5xl font-bold text-success">
-                    ${aiSavings.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    {formatCurrency(aiSavings)}
                   </p>
                   <p className="text-xs text-neutral-600 mt-1">
                     60% reduction in repetitive tasks
@@ -149,7 +186,7 @@ export function ROICalculator() {
                   <div className="p-4 bg-white rounded-xl shadow-sm text-center">
                     <p className="text-xs text-neutral-600 mb-1">Implementation</p>
                     <p className="text-2xl font-bold text-neutral-900">
-                      ${implementationCost.toLocaleString()}
+                      {formatCurrency(implementationCost)}
                     </p>
                   </div>
                   <div className="p-4 bg-white rounded-xl shadow-sm text-center">
@@ -163,7 +200,7 @@ export function ROICalculator() {
                 <div className="p-6 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-xl text-white text-center">
                   <p className="text-sm mb-2 text-primary-100">Net Savings (Year 1)</p>
                   <p className="text-4xl font-bold">
-                    ${netSavings.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                    {formatCurrency(netSavings)}
                   </p>
                   <p className="text-xs mt-2 text-primary-100">
                     After implementation costs

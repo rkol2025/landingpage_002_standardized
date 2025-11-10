@@ -11,7 +11,7 @@ export function ServicesSection() {
     {
       name: 'AI Opportunity Assessment',
       description: 'Perfect for getting started with AI',
-      price: '$15,000',
+      price: '€15,000',
       duration: 'one-time',
       popular: false,
       features: [
@@ -30,7 +30,7 @@ export function ServicesSection() {
     {
       name: 'Quick-Win Implementation',
       description: 'Most popular for immediate ROI',
-      price: '$45,000',
+      price: '€45,000',
       duration: 'one-time',
       popular: true,
       features: [

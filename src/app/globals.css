@@ -33,6 +33,30 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400 !important;
+  }
+
+  p {
+    font-family: var(--font-lato), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  ul,
+  ol,
+  li {
+    font-family: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 }
 

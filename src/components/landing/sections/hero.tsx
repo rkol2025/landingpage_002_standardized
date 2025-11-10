@@ -17,7 +17,7 @@ export function HeroSection() {
             <div className="space-y-6">
               <div className="inline-block">
                 <span className="px-4 py-2 rounded-full bg-primary-50 text-primary-600 text-sm font-semibold border border-primary-200">
-                  🚀 AI-Powered Business Transformation
+                An End-to-End Partner for Engineering Your AI Advantage
                 </span>
               </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
@@ -48,7 +48,7 @@ export function HeroSection() {
                 className="group"
               >
                 <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
-                Watch Demo (2 min)
+                Download AI Checklist
               </Button>
             </div>
 
@@ -58,7 +58,7 @@ export function HeroSection() {
                 <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
                   <span className="text-white text-xs font-bold">✓</span>
                 </div>
-                <span>No credit card required</span>
+                <span>Fast Implementation</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">

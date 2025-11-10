@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useScroll } from '@/hooks/use-scroll';
 import { Button } from '@/components/ui/button';
@@ -30,18 +31,17 @@ export function Header() {
     >
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="relative w-10 h-10">
-            <svg viewBox="0 0 100 100" className="w-full h-full">
-              <g fill="#2d2d2d" stroke="#555" strokeWidth="0.5">
-                <polygon points="10,90 30,20 50,50" />
-                <polygon points="50,50 70,20 90,90" />
-                <polygon points="42,35 50,20 58,35" />
-                <polygon points="70,60 75,50 80,60" />
-              </g>
-            </svg>
+        <Link href="/" className="flex items-end gap-3">
+          <div className="relative h-[48px] w-[52px]">
+            <Image
+              src="/images/apexa_logo_black.png"
+              alt="APEXA logo"
+              width={52}
+              height={52}
+              priority
+            />
           </div>
-          <span className="font-bold text-xl text-neutral-900 tracking-tight">
+          <span className="text-neutral-700 text-4xl md:text-5xl leading-none">
             APEXA
           </span>
         </Link>
@@ -65,7 +65,7 @@ export function Header() {
             <Link href="#contact">Contact Us</Link>
           </Button>
           <Button asChild>
-            <Link href="#booking">Book Consultation</Link>
+            <Link href="#booking">Get Your AI Strategy</Link>
           </Button>
 
           {/* Mobile Menu Toggle */}

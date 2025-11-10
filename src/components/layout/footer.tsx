@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Linkedin, Mail, Phone } from 'lucide-react';
 
@@ -39,14 +40,13 @@ export function Footer() {
           <div className="lg:col-span-1 space-y-4">
             <div className="flex items-center gap-3">
               <div className="relative w-10 h-10">
-                <svg viewBox="0 0 100 100" className="w-full h-full">
-                  <g fill="#e5e7eb" stroke="#9ca3af" strokeWidth="0.5">
-                    <polygon points="10,90 30,20 50,50" />
-                    <polygon points="50,50 70,20 90,90" />
-                    <polygon points="42,35 50,20 58,35" />
-                    <polygon points="70,60 75,50 80,60" />
-                  </g>
-                </svg>
+                <Image
+                  src="/images/apexa_logo_white.png"
+                  alt="APEXA logo"
+                  width={40}
+                  height={40}
+                  priority={false}
+                />
               </div>
               <span className="font-bold text-xl text-white tracking-tight">
                 APEXA
